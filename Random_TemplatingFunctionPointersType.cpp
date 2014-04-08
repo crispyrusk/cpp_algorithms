@@ -46,5 +46,10 @@ int mainNestingTemplates() {
 
   testFunctionPointer_4<void(*)()>(fn1);
   testFunctionPointer_4<void(*)()>(fn2);
+
+  auto fn_wrapper = [](){std::cout << "test lambda" << std::endl; };
+
+  //testFunctionPointer_1<fn_wrapper>(); // wont compile because not generic
+  testFunctionPointer_3(fn_wrapper); // compiles because it is generic
   return 0;
 }
