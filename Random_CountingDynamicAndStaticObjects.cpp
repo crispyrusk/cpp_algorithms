@@ -1,5 +1,6 @@
 // count the number of alive and created objects of a class A
-// that are created by dynamic allocation and non-dynamic/static allocation
+// that are created by dynamic allocation and non-dynamic/static allocate
+// TODO: I havent figured out how to handle dynamic array allocation
 #include <iostream>
 #include <cassert>
 
