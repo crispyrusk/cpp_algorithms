@@ -24,7 +24,7 @@ void reverse(std::string& str) {
   }
 }
 
-int main() {
+int mainReverseString() {
   std::string testString{ "this is a test string" }; // c++11 init list
   std::cout << "input:" << testString << std::endl;
   reverse(testString);
