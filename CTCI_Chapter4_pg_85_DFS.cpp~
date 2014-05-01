@@ -1,0 +1,12 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <string>
+
+// undirected graph
+class UdGraph {
+public:
+  std::vector<std::set<int> > adj;
+  UdGraph(int numVertices) { adj.resize(numVertices); };
+  void insertEdge(std::string edge);
+};
