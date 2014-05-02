@@ -2,6 +2,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <stack>
 #include <cassert>
 
 // undirected graph
@@ -53,11 +54,72 @@ void UdGraph::insertEdge(std::string edge) {
 }
 
 
+class DepthFirstSearch {
+public:
+  DepthFirstSearch(const UdGraph& G_arg, const int rootVertex_arg);
+  bool isConnectedToRoot(const int vertex);
+  void printPathTo(const int vertex);
+private:
+  int _numVertices = 0;
+  int _rootVertex = -1;
+  const UdGraph& G;
+  std::vector<bool> visited;
+  std::vector<int> parent;
+  void doDFS(const int rootOfSubTree);
+};
+
+DepthFirstSearch::DepthFirstSearch(const UdGraph& G_arg, const int rootVertex_arg) : G(G_arg), _rootVertex(rootVertex_arg) 
+{
+  _numVertices = static_cast<int>(G.adj.size());
+  assert(_rootVertex < _numVertices && _rootVertex >= 0);
+  visited.resize(G.adj.size(), false);
+  parent.resize(G.adj.size(), -1);
+  doDFS(_rootVertex);
+}
+
+void DepthFirstSearch::doDFS(const int rootOfSubTree) {
+  assert(rootOfSubTree >= 0 && rootOfSubTree < _numVertices);
+  visited[rootOfSubTree] = true;
+  for (auto const neighbor : G.adj[rootOfSubTree]) {
+    if (!visited[neighbor]) {
+      doDFS(neighbor);
+      parent[neighbor] = rootOfSubTree;
+    }
+  }
+}
+
+bool DepthFirstSearch::isConnectedToRoot(const int vertex) {
+  assert(vertex >= 0 && vertex < _numVertices);
+  return visited[vertex];
+}
+
+void DepthFirstSearch::printPathTo(const int vertex) {
+  assert(vertex >= 0 && vertex < _numVertices);
+  std::cout << "path from " << _rootVertex << " to " << vertex << ": ";
+  if (!visited[vertex]) { std::cout << "no path \n"; return; }
+  std::stack<int> path;
+  int focusVertex = vertex;
+  path.push(focusVertex);
+  while (parent[focusVertex] != -1) {
+    focusVertex = parent[focusVertex];
+    path.push(focusVertex);
+  }
+  while (!path.empty()) {
+    std::cout << path.top() << ",";
+    path.pop();
+  }
+  std::cout << std::endl;
+}
+
 int main() {
   UdGraph g(10);
   std::string inputGraph = {"(1,2),(1,3),(1,4),(4,5),(2,6),(6,5),(8,9),(3,8)"};
   //std::cin >> inputGraph;
   g.constructGraphFromEdges(inputGraph);
   g.printGraph();
+  auto dfsTree = DepthFirstSearch(g, 1);
+  for (int i = 0; i < static_cast<int>(g.adj.size()); ++i) {
+    dfsTree.printPathTo(i);
+  }
   return 0;
 }
