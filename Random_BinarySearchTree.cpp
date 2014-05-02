@@ -23,7 +23,7 @@ public:
   void printPreOrder();
 private:
   std::shared_ptr<Node> _root = nullptr;
-  void _insertRecursively(shared_ptr<Node>& rootOfSubTree, const int key);
+  void _insertRecursively(shared_ptr<Node>& rootOfSubTree, const int key); // the rootOfSubTree holds the subtree where the new key is inserted
   bool _searchRecursively(const shared_ptr<Node>& rootOfSubTree, const int key);
   void _printPreOrder(shared_ptr<Node>& rootOfSubTree);
 };
