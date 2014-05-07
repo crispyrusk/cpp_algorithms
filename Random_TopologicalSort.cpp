@@ -62,7 +62,7 @@ private:
   bool hasCycle = false;
   std::vector<bool> visited;
   std::vector<bool> returned; // needed to check for loops
-  std::stack<int> reverseOrder;
+  std::stack<int> reversePostOrder;
   bool doDFS(const int rootOfSubTree);
 };
 
@@ -95,7 +95,7 @@ bool TopoSort::doDFS(const int rootOfSubTree) {
     }
   }
   returned[rootOfSubTree] = true;
-  reverseOrder.push(rootOfSubTree);
+  reversePostOrder.push(rootOfSubTree);
   return cycleDetected;
 }
 
@@ -106,7 +106,7 @@ void TopoSort::printSchedule() {
     std::cout << "no feasible schedule; graph has cycle \n";
     return;
   }
-  std::stack<int> tempStack(reverseOrder);
+  std::stack<int> tempStack(reversePostOrder);
   while (!tempStack.empty()) {
     std::cout << tempStack.top() << ", ";
     tempStack.pop();
