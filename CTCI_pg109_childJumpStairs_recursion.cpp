@@ -1,3 +1,4 @@
+// idea of using top-to-bottom recursion (constructing f(n) from f(m) where m < n)
 // using chrono api to measure time
 // dynamic programming from CS folks perspective - caching computed results to reuse in the context of distributive law
 // dp_cache - dynamic programming cache
