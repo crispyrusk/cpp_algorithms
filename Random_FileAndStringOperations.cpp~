@@ -9,7 +9,7 @@ int mainReadingFromTextFileAndOperations() {
   std::deque<std::string> ds;
   std::ifstream testFileStream("test_20140407.txt", std::ios::in);
   std::string s;
-  while (testFileStream >> s) { // reads one word at time, you need use getline to read a line
+  while (testFileStream >> s) {
     ds.push_back(s);
   }
   return 0;
