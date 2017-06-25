@@ -1,0 +1,66 @@
+// https://en.wikipedia.org/wiki/K-d_tree
+
+#include <vector>
+#include <tuple>
+#include <memory>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+class Node
+{
+public:
+    vector<double> point;
+    unique_ptr<Node> leftChild = nullptr;
+    unique_ptr<Node> rightChild = nullptr;
+};
+
+
+unique_ptr<Node> constructKdTree(vector< vector<double> >& pointList, const size_t pointDim, size_t dimToSplitOn, size_t startIndex, size_t endIndex)
+{
+    if (pointList.empty())
+        return nullptr;
+
+    if (startIndex >= endIndex)
+        return nullptr;
+
+    auto node = std::unique_ptr<Node>(new Node());
+
+    std::sort(pointList.begin() + startIndex, pointList.begin() + endIndex, [&dimToSplitOn](const vector<double> pointLhs, const vector<double> pointRhs) {return pointLhs[dimToSplitOn] < pointRhs[dimToSplitOn]; });
+    auto medianIndex = (startIndex + endIndex) / 2;
+
+    if (startIndex  < medianIndex)
+        node->leftChild = constructKdTree(pointList, pointDim, (dimToSplitOn + 1) % pointDim, startIndex, medianIndex);
+    if ((medianIndex + 1) < endIndex)
+        node->rightChild = constructKdTree(pointList, pointDim, (dimToSplitOn + 1) % pointDim, medianIndex + 1, endIndex);
+    
+    node->point = pointList[medianIndex];
+    return node;
+}
+
+
+void printTree(const unique_ptr<Node>& head)
+{
+    if (head == nullptr)
+    {
+        cout << "null" << endl;
+        return;
+    }
+    auto& x = head->point;
+    for (auto& i : x)
+        cout << i << ",";
+    cout << "\n";
+    printTree(head->leftChild);
+    printTree(head->rightChild);
+}
+
+
+int main()
+{
+    // example from https://en.wikipedia.org/wiki/K-d_tree
+    std::vector< std::vector<double> > pointList = { {2,3}, {5,4}, {9,6}, {4,7}, {8,1}, {7,2} };
+    auto head = constructKdTree(pointList, 2, 0, 0, pointList.size());
+    printTree(head);
+    return 0;
+}
