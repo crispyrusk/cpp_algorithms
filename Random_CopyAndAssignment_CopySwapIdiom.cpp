@@ -1,3 +1,5 @@
+// why copy swap - http://www.geeksforgeeks.org/copy-swap-idiom-c/
+
 #include <iostream>
 #include <iterator>
 #include <utility>
