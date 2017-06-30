@@ -53,7 +53,7 @@ void BinarySearchTree::_insertRecursively(shared_ptr<Node>& rootOfSubTree, const
   if (rootOfSubTree == nullptr) {
     rootOfSubTree = std::make_shared<Node>(key);
   }
-  if (key <= rootOfSubTree->key) {
+  if (key < rootOfSubTree->key) {
     _insertRecursively(rootOfSubTree->leftChild, key);
   }
   else if (key > rootOfSubTree->key) {
